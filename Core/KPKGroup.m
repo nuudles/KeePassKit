@@ -168,6 +168,7 @@
 
 #pragma mark NSPasteboardWriting/Reading
 
+#if TARGET_OS_IPHONE == 0
 - (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard {
   return @[KPKGroupUTI];
 }
@@ -187,6 +188,7 @@
   }
   return nil;
 }
+#endif
 
 #pragma mark -
 #pragma mark Properties

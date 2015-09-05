@@ -22,6 +22,18 @@
 
 #import <Foundation/Foundation.h>
 
+#if TARGET_OS_IPHONE == 0
+  #define UInt8Type uint8
+  #define UInt16Type uint16
+  #define UInt32Type uint32
+  #define UInt64Type uint64
+#else
+  #define UInt8Type uint8_t
+  #define UInt16Type uint16_t
+  #define UInt32Type uint32_t
+  #define UInt64Type uint64_t
+#endif
+
 @interface KPKDataStreamWriter : NSObject
 
 + (instancetype)streamWriterWithData:(NSMutableData *)data;
@@ -32,10 +44,10 @@
 - (void)writeData:(NSData *)data;
 - (void)writeString:(NSString *)string encoding:(NSStringEncoding)encoding;
 - (void)writeBytes:(const void *)buffer length:(NSUInteger)lenght;
-- (void)writeByte:(uint8)byte;
-- (void)write2Bytes:(uint16)bytes;
-- (void)write4Bytes:(uint32)bytes;
-- (void)write8Bytes:(uint64)bytes;
+- (void)writeByte:(UInt8Type)byte;
+- (void)write2Bytes:(UInt16Type)bytes;
+- (void)write4Bytes:(UInt32Type)bytes;
+- (void)write8Bytes:(UInt64Type)bytes;
 - (void)writeInteger:(NSUInteger)integer;
 
 - (NSData *)data;

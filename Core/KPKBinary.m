@@ -111,7 +111,9 @@
 - (BOOL)saveToLocation:(NSURL *)location {
   NSError *error;
   if(![self.data writeToURL:location options:NSDataWritingAtomic error:&error]) {
+#if TARGET_OS_IPHONE == 0
     [NSApp presentError:error];
+#endif
     return NO;
   }
   return YES;

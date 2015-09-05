@@ -37,6 +37,14 @@
 
 @end
 
+#if TARGET_OS_IPHONE == 0
 @interface NSUUID (Pasteboarding) <NSPasteboardReading, NSPasteboardWriting>
 
 @end
+#else
+@interface NSUUID (Equality)
+
+- (BOOL)isEqualTo:(id)object;
+
+@end
+#endif

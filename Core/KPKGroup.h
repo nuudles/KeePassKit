@@ -28,7 +28,11 @@
 
 FOUNDATION_EXPORT NSString *const KPKGroupUTI;
 
+#if TARGET_OS_IPHONE == 0
 @interface KPKGroup : KPKNode <NSSecureCoding, NSCopying, NSPasteboardReading, NSPasteboardWriting>
+#else
+@interface KPKGroup : KPKNode <NSSecureCoding, NSCopying>
+#endif
 
 @property(nonatomic, copy) NSString *notes;
 @property(nonatomic, readonly) NSArray *groups;

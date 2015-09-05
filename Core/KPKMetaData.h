@@ -24,6 +24,12 @@
 #import "KPKModificationRecording.h"
 #import "KPKIcon.h"
 
+#if TARGET_OS_IPHONE == 0
+  #define NSUIColor NSColor
+#else
+  #define NSUIColor UIColor
+#endif
+
 @class KPKTree;
 
 @interface KPKMetaData : NSObject <KPKModificationRecording>
@@ -43,7 +49,7 @@
 @property(nonatomic, assign) NSInteger maintenanceHistoryDays;
 
 /* Hexstring - #AA77FF */
-@property(nonatomic, copy) NSColor *color;
+@property(nonatomic, copy) NSUIColor *color;
 
 @property(nonatomic, strong) NSDate *masterKeyChanged;
 @property(nonatomic, readonly, assign) BOOL recommendMasterKeyChange;

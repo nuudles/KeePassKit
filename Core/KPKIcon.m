@@ -46,9 +46,9 @@
 - (id)initWithImageAtURL:(NSURL *)imageLocation {
   self = [self init];
   if(self) {
-    _image = [[NSImage alloc] initWithContentsOfURL:imageLocation];
+    _image = [[NSUIImage alloc] initWithData:[NSData dataWithContentsOfURL:imageLocation]];
     /* convert the Image to be in our PNG representation */
-    _image = [[NSImage alloc] initWithData:self.pngData];
+    _image = [[NSUIImage alloc] initWithData:self.pngData];
   }
   return self;
 }
@@ -65,7 +65,7 @@
 - (id)initWithData:(NSData *)data {
   self = [self init];
   if(self) {
-    self.image =[[NSImage alloc] initWithData:data];
+    self.image =[[NSUIImage alloc] initWithData:data];
   }
   return self;
 }
@@ -76,7 +76,7 @@
   self = [[KPKIcon alloc] init];
   if(self) {
     NSData *imageData = [aDecoder decodeObjectOfClass:[NSData class] forKey:@"image"];
-    _image = [[NSImage alloc] initWithData:imageData];
+    _image = [[NSUIImage alloc] initWithData:imageData];
     _uuid = [aDecoder decodeObjectOfClass:[NSUUID class] forKey:@"uuid"];
   }
   return self;
@@ -93,7 +93,11 @@
 
 - (id)copyWithZone:(NSZone *)zone {
   KPKIcon *copy = [[KPKIcon alloc] init];
+#if TARGET_OS_IPHONE == 0
   copy.image = [self.image copyWithZone:zone];
+#else
+  copy.image = [self.image copy];
+#endif
   copy.uuid = [self.uuid copyWithZone:zone];
   return copy;
 }
@@ -135,6 +139,7 @@
 }
 
 - (NSData *)pngData {
+#if TARGET_OS_IPHONE == 0
   NSImageRep *imageRep = [[self.image representations] lastObject];
   if([imageRep isKindOfClass:[NSBitmapImageRep class]]) {
     NSBitmapImageRep *bitmapRep = (NSBitmapImageRep *)imageRep;
@@ -142,13 +147,16 @@
     return [bitmapRep representationUsingType:NSPNGFileType properties:nil];
   }
   return nil;
+#else
+  return UIImagePNGRepresentation(self.image);
+#endif
 }
 
 #pragma mark Private
 
-- (NSImage *)_decodeString:(NSString *)imageString {
+- (NSUIImage *)_decodeString:(NSString *)imageString {
   NSData *data = [NSMutableData mutableDataWithBase64DecodedData:[imageString dataUsingEncoding:NSUTF8StringEncoding]];
-  return [[NSImage alloc] initWithData:data];
+  return [[NSUIImage alloc] initWithData:data];
 }
 
 @end

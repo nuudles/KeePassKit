@@ -86,8 +86,12 @@
     uint32_t randomStreamId = CFSwapInt32HostToLittle(_randomStreamID);
     headerData = [NSData dataWithBytesNoCopy:&randomStreamId length:sizeof(uint32_t) freeWhenDone:NO];
     [self _writerHeaderField:KPKHeaderKeyRandomStreamId data:headerData];
-    
+
+#if TARGET_OS_IPHONE == 0
     uint8_t endBuffer[] = { NSCarriageReturnCharacter, NSNewlineCharacter, NSCarriageReturnCharacter, NSNewlineCharacter };
+#else
+    uint8_t endBuffer[] = { '\r', '\n', '\r', '\n' };
+#endif
     headerData = [NSData dataWithBytesNoCopy:endBuffer length:4 freeWhenDone:NO];
     [self _writerHeaderField:KPKHeaderKeyEndOfHeader data:headerData];
   }

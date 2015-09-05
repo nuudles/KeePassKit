@@ -92,6 +92,7 @@ static NSUUID *aesUUID = nil;
 
 @end
 
+#if TARGET_OS_IPHONE == 0
 @implementation NSUUID (Pasteboarding)
 
 
@@ -119,3 +120,12 @@ static NSUUID *aesUUID = nil;
 }
 
 @end
+#else
+@implementation NSUUID (Equality)
+
+- (BOOL)isEqualTo:(id)object {
+  return [self isEqual:object];
+}
+
+@end
+#endif

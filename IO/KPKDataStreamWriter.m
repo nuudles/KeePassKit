@@ -66,17 +66,17 @@
 - (void)writeBytes:(const void *)buffer length:(NSUInteger)lenght {
   [self _writeBytes:buffer length:lenght];
 }
-- (void)writeByte:(uint8)byte {
+- (void)writeByte:(UInt8Type)byte {
   [self _writeBytes:&byte length:1];
 }
-- (void)write2Bytes:(uint16)bytes {
+- (void)write2Bytes:(UInt16Type)bytes {
   [self _writeBytes:&bytes length:2];
 }
-- (void)write4Bytes:(uint32)bytes {
+- (void)write4Bytes:(UInt32Type)bytes {
   [self _writeBytes:&bytes length:4];
 }
 
-- (void)write8Bytes:(uint64)bytes {
+- (void)write8Bytes:(UInt64Type)bytes {
   [self _writeBytes:&bytes length:8];
 }
 

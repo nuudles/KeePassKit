@@ -22,10 +22,16 @@
 
 #import <Foundation/Foundation.h>
 
+#if TARGET_OS_IPHONE == 0
+  #define NSUIImage NSImage
+#else
+  #define NSUIImage UIImage
+#endif
+
 @interface KPKIcon : NSObject <NSCopying, NSSecureCoding>
 
 @property (nonatomic, strong) NSUUID *uuid;
-@property (nonatomic, strong) NSImage *image;
+@property (nonatomic, strong) NSUIImage *image;
 @property (nonatomic, readonly) NSData *pngData;
 @property (nonatomic, readonly) NSString *encodedString;
 

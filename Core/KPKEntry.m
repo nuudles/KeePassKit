@@ -200,8 +200,8 @@ NSSet *_protectedKeyPathForAttribute(SEL aSelector) {
     _customAttributes = [aDecoder decodeObjectOfClass:[NSMutableArray class] forKey:NSStringFromSelector(@selector(customAttributes))];
     _tags = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(tags))];
     _history = [aDecoder decodeObjectOfClass:[NSMutableArray class] forKey:NSStringFromSelector(@selector(history))];
-    _foregroundColor = [aDecoder decodeObjectOfClass:[NSColor class] forKey:NSStringFromSelector(@selector(foregroundColor))];
-    _backgroundColor = [aDecoder decodeObjectOfClass:[NSColor class] forKey:NSStringFromSelector(@selector(backgroundColor))];
+    _foregroundColor = [aDecoder decodeObjectOfClass:[NSUIColor class] forKey:NSStringFromSelector(@selector(foregroundColor))];
+    _backgroundColor = [aDecoder decodeObjectOfClass:[NSUIColor class] forKey:NSStringFromSelector(@selector(backgroundColor))];
     _overrideURL = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(overrideURL))];
     _autotype = [aDecoder decodeObjectOfClass:[KPKAutotype class] forKey:NSStringFromSelector(@selector(autotype))];
     _isHistory = [aDecoder decodeBoolForKey:NSStringFromSelector(@selector(isHistory))];
@@ -255,6 +255,7 @@ NSSet *_protectedKeyPathForAttribute(SEL aSelector) {
 
 #pragma mark NSPasteBoardWriting/Readin
 
+#if TARGET_OS_IPHONE == 0
 + (NSPasteboardReadingOptions)readingOptionsForType:(NSString *)type pasteboard:(NSPasteboard *)pasteboard {
   NSAssert([type isEqualToString:KPKEntryUTI], @"Only KPKEntryUTI type is supported");
   return NSPasteboardReadingAsKeyedArchive;
@@ -274,6 +275,7 @@ NSSet *_protectedKeyPathForAttribute(SEL aSelector) {
   }
   return nil;
 }
+#endif
 
 #pragma mark Equality
 
@@ -664,7 +666,7 @@ NSSet *_protectedKeyPathForAttribute(SEL aSelector) {
   /* Binaries */
   [[self binaries] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     KPKBinary *binary = obj;
-    size += [binary.key length];
+    size += [binary.name length];
     size += [binary.data length];
   }];
   

@@ -29,6 +29,12 @@
 @class KPKAttribute;
 @class KPKAutotype;
 
+#if TARGET_OS_IPHONE == 0
+  #define NSUIColor NSColor
+#else
+  #define NSUIColor UIColor
+#endif
+
 /* Entries declared as MetaEntries in KDB files
  * contain information that is stored in meta data in KDBX file
  */
@@ -48,7 +54,11 @@ FOUNDATION_EXTERN NSString *const KPKMetaEntryKeePassXCustomIcon;
 FOUNDATION_EXTERN NSString *const KPKMetaEntryKeePassXCustomIcon2;
 FOUNDATION_EXTERN NSString *const KPKMetaEntryKeePassXGroupTreeState;
 
+#if TARGET_OS_IPHONE
+@interface KPKEntry : KPKNode <NSCopying, NSSecureCoding>
+#else
 @interface KPKEntry : KPKNode <NSCopying, NSSecureCoding, NSPasteboardWriting, NSPasteboardReading>
+#endif
 
 @property (nonatomic, copy) NSString *password;
 @property (nonatomic, copy) NSString *username;
@@ -63,8 +73,8 @@ FOUNDATION_EXTERN NSString *const KPKMetaEntryKeePassXGroupTreeState;
 @property (nonatomic, strong) NSArray *binaries;
 // TODO: change Tags to an String array!
 @property (nonatomic, copy) NSString *tags;
-@property (nonatomic, copy) NSColor *foregroundColor;
-@property (nonatomic, copy) NSColor *backgroundColor;
+@property (nonatomic, copy) NSUIColor *foregroundColor;
+@property (nonatomic, copy) NSUIColor *backgroundColor;
 @property (nonatomic, copy) NSString *overrideURL;
 
 @property (nonatomic, strong) NSArray *customAttributes;

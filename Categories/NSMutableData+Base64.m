@@ -32,6 +32,7 @@ typedef NS_ENUM(NSUInteger, KPKTransformMethod) {
   KPKDecode
 };
 
+#if TARGET_OS_IPHONE == 0
 static NSData *base64helper(NSData *input, KPKTransformMethod method)
 {
   NSData *output = nil;
@@ -54,6 +55,19 @@ static NSData *base64helper(NSData *input, KPKTransformMethod method)
   
   return output;
 }
+#else
+static NSData *base64helper(NSData *input, KPKTransformMethod method)
+{
+  switch (method) {
+    case KPKEncode:
+      return [input base64EncodedDataWithOptions:0];
+      break;
+    case KPKDecode:
+      return [[NSData alloc] initWithBase64EncodedData:input options:0];
+      break;
+  }
+}
+#endif
 
 @implementation NSMutableData (Base64)
 
